@@ -1,8 +1,10 @@
-from tsv     import format_fields
-from csv     import reader
-from glob    import glob
-from sqlite3 import connect
-from os.path import splitext, join
+from tsv       import format_fields
+from csv       import reader
+from glob      import glob
+from string    import ascii_lowercase
+from itertools import product, combinations
+from sqlite3   import connect
+from os.path   import splitext, join
 
 
 def csv_to_linear_tsv(csv_path):
@@ -85,3 +87,35 @@ def merge_sqlite_db(folder_path, recursive=False, extension='sqlite3'):
                 conn.commit()
         conn.close()
         return final_db
+
+def get_string_product(string, length):
+    '''
+    Function to gererate product of given string of given length
+    eg: get_string_product('123', 2) -> ['11', '12', '13', '21', '22', '23', '31', '32', '33']
+
+    Arguments:
+        string: character string eg: 'abcdef'
+        length: 3
+    Return:
+        product of given string
+    '''
+    products = []
+    for item in product(string, repeat=length):
+        products.append(''.join(item))
+    return products
+
+def get_string_combinations(string, length):
+    '''
+    Function to generate combination of the given string of given length
+    eg: get_string_combinations('123', 2) -> ['12', '13', '23']
+
+    Arguments:
+        string: character string eg: 'abcdef'
+        length: 3
+    Return:
+        product of given string
+    '''
+    combination = []
+    for item in combinations(string, length):
+        combination.append(''.join(item))
+    return combination
