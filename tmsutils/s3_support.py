@@ -1,5 +1,7 @@
+from os                  import walk
 from glob                import glob
-from os.path             import isdir, exists, join, dirname, basename
+from os.path             import (isdir, exists, join, dirname,
+                                 basename, abspath)
 
 from boto3               import client
 from botocore.client     import Config
@@ -53,3 +55,24 @@ class S3(object):
                             Params       = {'Bucket': bucket, 'Key': file_key},
                             ExpiresIn    = expire)
         return False
+
+    def upload(self, file_path, bucket=self.bucket):
+        '''
+        Upload the given file or directory to given S3 bucket
+        if file_path is a directory it will zip it and then upload it
+        '''
+        if isdir(file_path):
+            for root, _, _filenames in walk(file_path):
+                for filename in _filenames:
+                    file_key = join(root, filename)
+                    abs_path = abspath(file_key)
+                    self.connection.upload_file(abs_path, bucket, file_key)
+            return True
+
+        elif not exists(file_path):
+            return False
+
+        file_key = basename(file_path)
+        self.connection.upload_file(file_path, bucket, file_key)
+        return True
+
