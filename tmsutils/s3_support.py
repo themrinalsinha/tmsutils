@@ -36,16 +36,19 @@ class S3(object):
                       endpoint_url          = self.endpoint,
                       config                = Config(signature_version='s3v4'))
 
-    def file_exists(self, file_key, bucket=self.bucket):
+    def file_exists(self, file_key, bucket=None):
+        '''
+        Function to check if given key exists in given bucket
+        '''
         try:
-            self.connection.head_object(Bucket=bucket, key=file_key)
+            self.connection.head_object(Bucket=bucket or self.bucket, key=file_key)
             return True
         except ClientError as e:
             if e.response['Error']['Code'] == '404':
                 return False
             return e
 
-    def get_temperory_link(self, file_key, bucket=self.bucket, expire=300):
+    def get_temperory_link(self, file_key, bucket=None, expire=300):
         '''
         Generating temperory download link for given file_key
         default expire timeout is 300 seconds = 10 min
@@ -53,11 +56,11 @@ class S3(object):
         if self.file_exists(file_key):
             return self.connection.generate_presigned_url(
                             ClientMethod = 'get_object',
-                            Params       = {'Bucket': bucket, 'Key': file_key},
+                            Params       = {'Bucket': bucket or self.bucket, 'Key': file_key},
                             ExpiresIn    = expire)
         return False
 
-    def upload(self, file_path=self.directory, bucket=self.bucket):
+    def upload(self, file_path=None, bucket=None):
         '''
         Upload the given file or directory to given S3 bucket, if the filepath is a directory
         it will upload the entire directory maintaining it's directory structure or if it is
@@ -65,6 +68,9 @@ class S3(object):
 
         TODO: add zip support - compress folder to zip and then upload.
         '''
+        file_path = file_path or self.directory
+        bucket    = bucket or self.bucket
+
         if isdir(file_path):
             for root, _, _filenames in walk(file_path):
                 for filename in _filenames:
@@ -80,7 +86,7 @@ class S3(object):
         self.connection.upload_file(file_path, bucket, file_key)
         return True
 
-    def download(self, file_key=None, folder_prefix=False, download_dir=self.directory or getcwd(), bucket=self.bucket):
+    def download(self, file_key=None, folder_prefix=False, download_dir=None, bucket=None):
         '''
         Download given file based on given file_key or prefix (in case of a folder)
         it will either download everything to download_dir or current directory
@@ -90,6 +96,9 @@ class S3(object):
             folder_prefix - in case of donloading entire folder from bucket with pattern
                 eg: ORD123/ or ORD123/invoices/
         '''
+        download_dir = download_dir or self.directory or getcwd()
+        bucket       = bucket or self.bucket
+
         if folder_prefix:
             bucket_data = self.connection.list_objects(Bucket=bucket, Prefix=folder_prefix).get('Contents')
             if bucket_data:
