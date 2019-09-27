@@ -15,4 +15,3 @@ Classes:
     - `get_temperory_link` - get temperory download link for a given key
     - `upload` - upload your file or directory to s3 storage
     - `download` - download given key or entire folder from s3 storage
-
