@@ -11,12 +11,13 @@ class S3(object):
     '''
     S3 class for S3 Compatable storages
     '''
-    def __init__(self, access_key, secret_key, bucket, region, endpoint=None):
+    def __init__(self, access_key, secret_key, bucket, region, endpoint=None, directory=None):
         self.access_key = access_key
         self.secret_key = secret_key
         self.bucket     = bucket
         self.region     = region
         self.endpoint   = endpoint
+        self.directory  = directory
         self.connection = self.get_connection()
 
     def get_connection(self):
@@ -56,10 +57,13 @@ class S3(object):
                             ExpiresIn    = expire)
         return False
 
-    def upload(self, file_path, bucket=self.bucket):
+    def upload(self, file_path=self.directory, bucket=self.bucket):
         '''
-        Upload the given file or directory to given S3 bucket
-        if file_path is a directory it will zip it and then upload it
+        Upload the given file or directory to given S3 bucket, if the filepath is a directory
+        it will upload the entire directory maintaining it's directory structure or if it is
+        a file it will just upload the file.
+
+        TODO: add zip support - compress folder to zip and then upload.
         '''
         if isdir(file_path):
             for root, _, _filenames in walk(file_path):
@@ -76,8 +80,17 @@ class S3(object):
         self.connection.upload_file(file_path, bucket, file_key)
         return True
 
-    def download(self, file_key, folder_prefix=False, download_dir=getcwd(), bucket=self.bucket):
-        if directory:
+    def download(self, file_key=None, folder_prefix=False, download_dir=self.directory or getcwd(), bucket=self.bucket):
+        '''
+        Download given file based on given file_key or prefix (in case of a folder)
+        it will either download everything to download_dir or current directory
+
+        Argument:
+            file_key - in case of downloading only one file
+            folder_prefix - in case of donloading entire folder from bucket with pattern
+                eg: ORD123/ or ORD123/invoices/
+        '''
+        if folder_prefix:
             bucket_data = self.connection.list_objects(Bucket=bucket, Prefix=folder_prefix).get('Contents')
             if bucket_data:
                 download_keys = [x.get('Key') for x in bucket_data]
@@ -85,7 +98,7 @@ class S3(object):
                     self.connection.download_file(bucket, key, join(download_dir, key))
                 return download_dir
 
-        if self.file_exists(file_key):
+        if file_key and self.file_exists(file_key):
             self.connection.download_file(bucket, file_key, join(download_dir, basename(file_key)))
             return join(download_dir, basename(file_key))
         return False
