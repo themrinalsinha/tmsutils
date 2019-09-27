@@ -1,4 +1,4 @@
-from os                  import walk
+from os                  import walk, getcwd
 from glob                import glob
 from os.path             import (isdir, exists, join, dirname,
                                  basename, abspath)
@@ -76,3 +76,16 @@ class S3(object):
         self.connection.upload_file(file_path, bucket, file_key)
         return True
 
+    def download(self, file_key, folder_prefix=False, download_dir=getcwd(), bucket=self.bucket):
+        if directory:
+            bucket_data = self.connection.list_objects(Bucket=bucket, Prefix=folder_prefix).get('Contents')
+            if bucket_data:
+                download_keys = [x.get('Key') for x in bucket_data]
+                for key in download_keys:
+                    self.connection.download_file(bucket, key, join(download_dir, key))
+                return download_dir
+
+        if self.file_exists(file_key):
+            self.connection.download_file(bucket, file_key, join(download_dir, basename(file_key)))
+            return join(download_dir, basename(file_key))
+        return False
