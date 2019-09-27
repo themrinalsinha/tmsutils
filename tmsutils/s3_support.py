@@ -1,7 +1,6 @@
-from os                  import walk, getcwd
+from os                  import getcwd, makedirs
 from glob                import glob
-from os.path             import (isdir, exists, join, dirname,
-                                 basename, abspath)
+from os.path             import isdir, exists, join, dirname, basename
 
 from boto3               import client
 from botocore.client     import Config
@@ -41,7 +40,7 @@ class S3(object):
         Function to check if given key exists in given bucket
         '''
         try:
-            self.connection.head_object(Bucket=bucket or self.bucket, key=file_key)
+            self.connection.head_object(Bucket=bucket or self.bucket, Key=file_key)
             return True
         except ClientError as e:
             if e.response['Error']['Code'] == '404':
@@ -69,14 +68,17 @@ class S3(object):
         TODO: add zip support - compress folder to zip and then upload.
         '''
         file_path = file_path or self.directory
+        file_path = file_path.rstrip('/')
         bucket    = bucket or self.bucket
 
         if isdir(file_path):
-            for root, _, _filenames in walk(file_path):
-                for filename in _filenames:
-                    file_key = join(root, filename)
-                    abs_path = abspath(file_key)
-                    self.connection.upload_file(abs_path, bucket, file_key)
+            _skip     = len(dirname(file_path))
+            _basename = basename(file_path)
+            all_files = glob(join(file_path, '**/*'), recursive=True)
+            all_files = [f for f in all_files if not isdir(f)]
+            for _file in all_files:
+                file_key = _file[_file.index(_basename, _skip):]
+                self.connection.upload_file(_file, bucket, file_key)
             return True
 
         elif not exists(file_path):
@@ -86,7 +88,7 @@ class S3(object):
         self.connection.upload_file(file_path, bucket, file_key)
         return True
 
-    def download(self, file_key=None, folder_prefix=False, download_dir=None, bucket=None):
+    def download(self, file_key=None, folder_prefix=None, download_dir=None, bucket=None):
         '''
         Download given file based on given file_key or prefix (in case of a folder)
         it will either download everything to download_dir or current directory
@@ -104,10 +106,13 @@ class S3(object):
             if bucket_data:
                 download_keys = [x.get('Key') for x in bucket_data]
                 for key in download_keys:
-                    self.connection.download_file(bucket, key, join(download_dir, key))
-                return download_dir
+                    download_path = join(download_dir, key)
+                    if not exists(dirname(download_path)):
+                        makedirs(dirname(download_path))
+                    self.connection.download_file(bucket, key, download_path)
+                return join(download_dir, folder_prefix)
 
-        if file_key and self.file_exists(file_key):
+        elif file_key and self.file_exists(file_key):
             self.connection.download_file(bucket, file_key, join(download_dir, basename(file_key)))
             return join(download_dir, basename(file_key))
         return False
