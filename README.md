@@ -15,3 +15,8 @@ Classes:
     - `get_temperory_link` - get temperory download link for a given key
     - `upload` - upload your file or directory to s3 storage
     - `download` - download given key or entire folder from s3 storage
+
+- `FileIO` (wrapper for https://file.io 'snapchat' of file sharing)
+    - NOTE: it requires 'curl' commandline tool to be installed
+    - `upload` - upload file to 'https://file.io' and returns file download link
+    - `download` - download file from the given file.io url to given location
