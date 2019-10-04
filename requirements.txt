@@ -1,2 +1,4 @@
 linear-tsv==1.1.0
 boto3==1.9.236
+requests==2.22.0
+Click==7.0
