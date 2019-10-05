@@ -66,6 +66,11 @@ def merge_sqlite_db(folder_path, recursive=False, extension='sqlite3'):
     if recursive:
         _db_files = glob(join(folder_path, '**/*.{}'.format(extension)), recursive=True)
 
+    if not _db_files:
+        return False
+    if len(_db_files) == 1:
+        return _db_files[0]
+
     if len(_db_files) > 1:
         final_db = _db_files[0]
         other_db = _db_files[1:]

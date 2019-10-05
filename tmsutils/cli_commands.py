@@ -5,6 +5,8 @@ from os.path  import join
 from difflib  import get_close_matches
 from requests import get
 
+from .utils   import merge_sqlite_db
+
 @click.group()
 def cli():
     pass
@@ -42,3 +44,10 @@ def gi(path, types):
         response = get('http://gitignore.io/api/{}'.format(_types))
         with open(join(path, '.gitignore'), 'w') as f:
             f.write(response.text)
+
+@cli.command(help='merge .sqlite files in given directory of same schema')
+@click.option('--path', '-p', default=getcwd(), help='path of the directory containing .sqlite file')
+@click.option('--extension', '-e', default='sqlite3', help='database file extension (default=.sqlite3)')
+def mdb(path, extension):
+    result = merge_sqlite_db(path, extension=extension)
+    click.echo(result) if result else click.echo('No sqlite3 files found!')
