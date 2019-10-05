@@ -6,6 +6,7 @@ setup(
     author           = 'Mrinal Sinha',
     version          = '1.0.2',
     packages         = ['tmsutils'],
+    py_modules       = ['tmsutils'],
     description      = 'Handy tools out of the box',
     author_email     = 'mail@themrinalsinha.com',
     install_requires = [pkg for pkg in open('requirements.txt').read().split('\n') if pkg],
@@ -17,6 +18,6 @@ setup(
 
     entry_points = '''
         [console_scripts]
-        tms=tmsutils.cli_commands:cli
+        tms=tmsutils:cli
     '''
 )
