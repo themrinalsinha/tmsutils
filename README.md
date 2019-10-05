@@ -22,15 +22,15 @@ Classes:
     - `download` - download file from the given file.io url to given location
 
 CLI (Commandline Utilities):
-- `gl` (designed to help you create .gitignore files for your git repositories)
+- `gi` (designed to help you create .gitignore files for your git repositories)
     - It is used to generate gitignore for `operating systems`, `IDEs`, or `Programming Languages`
     - The below command will generate .gitignore for python (PL) and code (IDE) in same place.
     ```
-    $ tms gl python,code
+    $ tms gi python,code
     ```
     - In case of any such type which is not valid then
     ```
-    $ tms gl python3,abcdx
+    $ tms gi python3,abcdx
 
     "python3" is invalid, try from "python"
     "abcdx" is invalid.
