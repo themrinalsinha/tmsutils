@@ -35,3 +35,12 @@ CLI (Commandline Utilities):
     "python3" is invalid, try from "python"
     "abcdx" is invalid.
     ```
+- `mdb` (merging sqlite database command)
+    - It is used to merge sqlite3 database files
+    ```
+    Options:
+        --path = default current directory from where comand runs
+        --extension = default is set to sqlite, can also use 'db'
+
+    It returns db file path if which all other are merged or return No file found.
+    ```
