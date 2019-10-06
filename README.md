@@ -44,3 +44,10 @@ CLI (Commandline Utilities):
 
     It returns db file path if which all other are merged or return No file found.
     ```
+- `sf` (splitting files (eg: txt, csv, tsv etc..) into equal chunks of given size)
+    - takes file path as an arugument, it splits the file by default into 10 chunks
+    ```
+    Options:
+        FILEPATH - path to the file
+        --chunk, -c <int> number of chunks (default=10)
+    ```
