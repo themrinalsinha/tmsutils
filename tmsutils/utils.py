@@ -1,10 +1,12 @@
-from tsv       import format_fields
-from csv       import reader
-from glob      import glob
-from string    import ascii_lowercase
-from itertools import product, combinations
-from sqlite3   import connect
-from os.path   import splitext, join
+from tsv         import format_fields
+from csv         import reader
+from json        import loads, dumps
+from glob        import glob
+from string      import ascii_lowercase
+from itertools   import product, combinations
+from sqlite3     import connect
+from os.path     import splitext, join
+from collections import namedtuple
 
 
 def csv_to_linear_tsv(csv_path):
@@ -124,3 +126,15 @@ def get_string_combinations(string, length):
     for item in combinations(string, length):
         combination.append(''.join(item))
     return combination
+
+def dict_to_object(data):
+    '''
+    Function to create object out of a given dictionary/json dumps etc.
+    eg: INPUT: {'a': {'b': {'c': 'd'}}} => OUTPUT: data(a=data(b=data(c='d')))
+    Input:
+        data: takes dictionary or json dump
+    Return:
+        namedtuple object which can be accessed like object
+    '''
+    data = dumps(data) if isinstance(data, dict) else data
+    return loads(data, object_hook=lambda d: namedtuple('data', d.keys())(*d.values()))
