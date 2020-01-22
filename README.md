@@ -1,4 +1,5 @@
-# tmsutils
+# tmsutils [![PyPI version](https://badge.fury.io/py/tmsutils.svg)](https://badge.fury.io/py/tmsutils) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/themrinalsinha/tmsutils/graphs/commit-activity) [![Build Status](https://travis-ci.org/TheMrinalSinha/tmsutils.svg?branch=master)](https://travis-ci.org/TheMrinalSinha/tmsutils)
+
 collection of utility functions to make task easy
 
 Function list:

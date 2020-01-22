@@ -1,7 +1,7 @@
 import click
 
 from os       import getcwd
-from os.path  import join, exists, isdir
+from os.path  import join, exists
 from difflib  import get_close_matches
 from requests import get
 

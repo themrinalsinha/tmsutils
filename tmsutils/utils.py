@@ -2,7 +2,6 @@ from tsv         import format_fields
 from csv         import reader
 from json        import loads, dumps
 from glob        import glob
-from string      import ascii_lowercase
 from itertools   import product, combinations
 from sqlite3     import connect
 from os.path     import splitext, join
