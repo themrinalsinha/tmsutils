@@ -14,7 +14,7 @@ Function list:
 Classes:
 - `S3` (wrapper for S3 data storages)
     - `file_exists` - check if given key exists or not
-    - `get_temporary_link - get temporary download link for a given key
+    - `get_temporary_link` - get temporary download link for a given key
     - `upload` - upload your file or directory to s3 storage
     - `download` - download given key or entire folder from s3 storage
 
