@@ -14,16 +14,16 @@ Function list:
 Classes:
 - `S3` (wrapper for S3 data storages)
     - `file_exists` - check if given key exists or not
-    - `get_temperory_link` - get temperory download link for a given key
+    - `get_temporary_link - get temporary download link for a given key
     - `upload` - upload your file or directory to s3 storage
     - `download` - download given key or entire folder from s3 storage
 
 - `FileIO` (wrapper for https://file.io 'snapchat' of file sharing)
-    - NOTE: it requires 'curl' commandline tool to be installed
+    - NOTE: it requires 'curl' command line tool to be installed
     - `upload` - upload file to 'https://file.io' and returns file download link
     - `download` - download file from the given file.io url to given location
 
-CLI (Commandline Utilities):
+CLI (Command line Utilities):
 - `gi` (designed to help you create .gitignore files for your git repositories)
     - It is used to generate gitignore for `operating systems`, `IDEs`, or `Programming Languages`
     - The below command will generate .gitignore for python (PL) and code (IDE) in same place.
@@ -41,13 +41,13 @@ CLI (Commandline Utilities):
     - It is used to merge sqlite3 database files
     ```
     Options:
-        --path = default current directory from where comand runs
+        --path = default current directory from where command runs
         --extension = default is set to sqlite, can also use 'db'
 
     It returns db file path if which all other are merged or return No file found.
     ```
 - `sf` (splitting files (eg: txt, csv, tsv etc..) into equal chunks of given size)
-    - takes file path as an arugument, it splits the file by default into 10 chunks
+    - takes file path as an argument, it splits the file by default into 10 chunks
     ```
     Options:
         FILEPATH - path to the file

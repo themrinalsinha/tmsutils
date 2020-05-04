@@ -9,7 +9,12 @@ setup(
     py_modules       = ['tmsutils'],
     description      = 'Handy tools out of the box',
     author_email     = 'mail@themrinalsinha.com',
-    install_requires = [pkg for pkg in open('requirements.txt').read().split('\n') if pkg],
+    install_requires = [
+        "boto3",
+        "click",
+        "requests",
+        "linear-tsv",
+    ],
     classifiers      = [
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",

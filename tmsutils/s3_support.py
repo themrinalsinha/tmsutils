@@ -47,9 +47,9 @@ class S3(object):
                 return False
             return e
 
-    def get_temperory_link(self, file_key, bucket=None, expire=300):
+    def get_temporary_link(self, file_key, bucket=None, expire=300):
         '''
-        Generating temperory download link for given file_key
+        Generating temporary download link for given file_key
         default expire timeout is 300 seconds = 10 min
         '''
         if self.file_exists(file_key):
