@@ -5,7 +5,7 @@ from os.path  import join, exists
 from difflib  import get_close_matches
 from requests import get
 
-from .utils   import merge_sqlite_db, file_split
+from tmsutils.utils   import merge_sqlite_db, file_split
 
 @click.group()
 def cli():
