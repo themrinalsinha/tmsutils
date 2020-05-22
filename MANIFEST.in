@@ -1,1 +1,5 @@
 include requirements.txt
+include tmsutils/other/*
+include tmsutils/utils/*
+include tmsutils/cli/*
+include tmsutils/aws/*

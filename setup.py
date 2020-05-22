@@ -20,6 +20,6 @@ setup(
 
     entry_points = '''
         [console_scripts]
-        tms=tmsutils:cli
+        tms=tmsutils.cli:cli
     '''
 )
