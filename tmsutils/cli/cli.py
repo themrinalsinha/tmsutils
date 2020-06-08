@@ -13,8 +13,9 @@ def cli():
 
 @cli.command(help="generate .gitignore file for given Operating systems, IDEs or Programming Languages")
 @click.argument('types', nargs=-1, required=True)
-@click.option('--path', default=getcwd(), help='path where you want to generate .gitignore file')
-def gi(path, types):
+@click.option('--path', '-p', default=getcwd(), help='path where you want to generate .gitignore file')
+@click.option('--replace', '-r', help='pass this option to replace the existing .gitignore file', is_flag=True)
+def gi(path, types, replace):
     '''
     gi - it is a command line utility that helps you to generate .gitignore file for given filetypes
     USE:
@@ -28,7 +29,8 @@ def gi(path, types):
         "abcdx" is invalid
     '''
     _types        = ','.join(types).split(',')
-    valid_types   = get('https://gitignore.io/api/list').text.split('\n')
+    _base_url     = 'https://www.toptal.com/developers/gitignore/api'
+    valid_types   = get(f'{_base_url}/list').text.split('\n')
     valid_types   = ','.join(valid_types).split(',')
 
     invalid_types = set(_types) - set(valid_types)
@@ -41,8 +43,8 @@ def gi(path, types):
                 click.echo('"{}" is invalid.'.format(_))
     else:
         _types   = ','.join(_types)
-        response = get('http://gitignore.io/api/{}'.format(_types))
-        with open(join(path, '.gitignore'), 'w') as f:
+        response = get(f'{_base_url}/{_types}')
+        with open(join(path, '.gitignore'), 'w' if replace else 'a') as f:
             f.write(response.text)
 
 @cli.command(help='split text file (eg: txt, csv, etc) line-wise into multiple chunks')
