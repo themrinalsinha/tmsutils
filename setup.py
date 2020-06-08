@@ -4,7 +4,7 @@ setup(
     url              = 'https://github.com/TheMrinalSinha/tmsutils',
     name             = 'tmsutils',
     author           = 'Mrinal Sinha',
-    version          = '1.0.6',
+    version          = '1.0.7',
     packages         = ['tmsutils'],
     py_modules       = ['tmsutils'],
     description      = 'Handy tools out of the box',
