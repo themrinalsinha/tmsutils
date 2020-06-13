@@ -1,14 +1,16 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     url              = 'https://github.com/TheMrinalSinha/tmsutils',
     name             = 'tmsutils',
     author           = 'Mrinal Sinha',
-    version          = '1.0.7',
-    packages         = ['tmsutils'],
+    version          = '1.0.8',
+    packages         = find_packages(where='src'),
     py_modules       = ['tmsutils'],
+    package_dir      = {'': 'src'},
     description      = 'Handy tools out of the box',
     author_email     = 'mail@themrinalsinha.com',
+    python_requires  = '>=3.6, <4',
     install_requires = [pkg for pkg in open('requirements.txt').read().split('\n') if pkg],
     classifiers      = [
         "Programming Language :: Python :: 3.6",
