@@ -53,3 +53,8 @@ CLI (Command line Utilities):
         FILEPATH - path to the file
         --chunk, -c <int> number of chunks (default=10)
     ```
+
+Another Installation method:
+```shell
+$ pip install tmsutils --extra-index-url=https://dl.mrinal.xyz/pypi/
+```
