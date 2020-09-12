@@ -18,6 +18,23 @@ Classes:
     - `upload` - upload your file or directory to s3 storage
     - `download` - download given key or entire folder from s3 storage
 
+- `DictManager` (wrapper to operate on nested dictionaries)
+    - DictManager takes `dict` as an input and a separator (default = `.`) and gives you the flexibility to manage your nested dictionary taking key as string.
+    - Example:
+      ```python
+      >>> data    = {"a": {"b": {"c": 123}}}
+      >>> manager = DictManager(data)
+
+      Accessing value
+      >>> manager["a.b.c"]
+      >>> 123
+
+      Setting value
+      >>> manager["a.b.c"] = 1234
+      >>> data
+      {"a": {"b": {"c": 1234}}}
+      ```
+
 - `FileIO` (wrapper for https://file.io 'snapchat' of file sharing)
     - NOTE: it requires 'curl' command line tool to be installed
     - `upload` - upload file to 'https://file.io' and returns file download link
