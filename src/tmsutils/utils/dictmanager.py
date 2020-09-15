@@ -168,7 +168,7 @@ class DictManager:
     def get(self, path: str, default=None):
         try:
             return self[path]
-        except (KeyError, IndexError) as error:
+        except (KeyError, IndexError) as error: # noqa
             return default
 
     def keys(self) -> KeysView:
@@ -200,7 +200,7 @@ class DictManager:
             if args:
                 return args[0]
             raise index_error(last_key, path, error)
-        except AttributeError as error:
+        except AttributeError as error: # noqa
             raise AttributeError(
                 f"Unable to pop item '{last_key}' in key '{path}': "
                 f"the element must be a dictionary or a list but is of type '{type(item)}'."
